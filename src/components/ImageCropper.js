@@ -48,11 +48,14 @@ export default function ImageCropper() {
 
       new Compressor(imgBlob, {
         quality: 0.6,
+        maxWidth: 600,
+        maxHeight: 600,
+        convertSize: 100000, // 100KB
 
         // Locol save
 
         success(result) {
-          saveAs(result, 'compressed.png');
+          saveAs(result, 'compressed.jpg');
 
           //Remote save
 
