@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+
 import Cropper from 'react-cropper';
-import axios from 'axios';
 import Compressor from 'compressorjs';
-import 'cropperjs/dist/cropper.css';
+
 import { saveAs } from 'file-saver';
+import axios from 'axios';
+
 import './styles.css';
+import 'cropperjs/dist/cropper.css';
+
 
 export default function ImageCropper() {
   const [image, setImage] = useState('');
@@ -47,10 +51,38 @@ export default function ImageCropper() {
       });
 
       new Compressor(imgBlob, {
-        quality: 0.6,
-        maxWidth: 600,
-        maxHeight: 600,
-        convertSize: 100000, // 100KB
+        quality: 0.8,
+        maxWidth: 1080,
+        maxHeight: 1080,
+        convertSize: 250000, // 100KB
+
+        // Locol save
+
+        success(result) {
+          saveAs(result, 'compressed.jpg');
+
+          //Remote save
+
+          // O processo de compressão é assíncrono,
+          // o que significa que você precisa acessar o `result` na função de sucesso `success`.
+          // success(result) {
+          //   const formData = new FormData();
+          //   // O terceiro parâmetro é necessário para o servidor
+          //   formData.append('file', result, result.name);
+          //   // Envie o arquivo de imagem comprimido para o servidor com XMLHttpRequest.
+          //   axios.post('../img', formData).then(() => {
+          //     console.log('Upload realizado com sucesso');
+          //   });
+        },
+        error(err) {
+          console.log(err.message);
+        },
+      });
+      new Compressor(imgBlob, {
+        quality: 0.95,
+        maxWidth: 2160,
+        maxHeight: 2160,
+        convertSize: 500000, // 100KB
 
         // Locol save
 
