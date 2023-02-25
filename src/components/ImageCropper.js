@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
-
 import Cropper from 'react-cropper';
 import Compressor from 'compressorjs';
-
 import { saveAs } from 'file-saver';
 import axios from 'axios';
-
 import './styles.css';
 import 'cropperjs/dist/cropper.css';
 
-
-export default function ImageCropper() {
+export default function ImageCropper(props) {
   const [image, setImage] = useState('');
   const [cropData, setCropData] = useState('');
   const [cropper, setCropper] = useState(null);
@@ -34,7 +30,6 @@ export default function ImageCropper() {
     if (typeof cropper !== 'undefined') {
       let croppedImg = setCropData(cropper.getCroppedCanvas().toDataURL());
       let imgData = cropper.getCroppedCanvas().toDataURL('image/png');
-      //document.getElementById('output').src = imgData;
 
       if (!imgData) {
         return;
@@ -56,23 +51,9 @@ export default function ImageCropper() {
         maxHeight: 1080,
         convertSize: 250000, // 100KB
 
-        // Locol save
-
         success(result) {
           saveAs(result, 'compressed.jpg');
-
-          //Remote save
-
-          // O processo de compressão é assíncrono,
-          // o que significa que você precisa acessar o `result` na função de sucesso `success`.
-          // success(result) {
-          //   const formData = new FormData();
-          //   // O terceiro parâmetro é necessário para o servidor
-          //   formData.append('file', result, result.name);
-          //   // Envie o arquivo de imagem comprimido para o servidor com XMLHttpRequest.
-          //   axios.post('../img', formData).then(() => {
-          //     console.log('Upload realizado com sucesso');
-          //   });
+          props.onCloseModal();
         },
         error(err) {
           console.log(err.message);
@@ -84,23 +65,9 @@ export default function ImageCropper() {
         maxHeight: 2160,
         convertSize: 500000, // 100KB
 
-        // Locol save
-
         success(result) {
           saveAs(result, 'compressed.jpg');
-
-          //Remote save
-
-          // O processo de compressão é assíncrono,
-          // o que significa que você precisa acessar o `result` na função de sucesso `success`.
-          // success(result) {
-          //   const formData = new FormData();
-          //   // O terceiro parâmetro é necessário para o servidor
-          //   formData.append('file', result, result.name);
-          //   // Envie o arquivo de imagem comprimido para o servidor com XMLHttpRequest.
-          //   axios.post('../img', formData).then(() => {
-          //     console.log('Upload realizado com sucesso');
-          //   });
+          props.onCloseModal();
         },
         error(err) {
           console.log(err.message);

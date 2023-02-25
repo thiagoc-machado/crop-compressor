@@ -1,27 +1,30 @@
 import React, { useState } from 'react';
 import Modal from '@mui/material/Modal';
 import ImageCropper from '../components/ImageCropper';
-import { ImgCropper } from '../components/ImgCropper';
 
 const Main = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const [isModalOpen, setIsModalOpen] = useState(false);
 
-  function handleOpenModal() {
-    setIsModalOpen(true);
-  }
+function handleOpenModal() {
+setIsModalOpen(true);
+}
 
-  return (
-    <div>
-      <button onClick={handleOpenModal}>Abrir modal</button>
-      <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <ImageCropper/>
-      </Modal>
-    </div>
-  );
+function handleCloseModal() {
+setIsModalOpen(false);
+}
+
+return (
+<div>
+<button onClick={handleOpenModal}>Abrir modal</button>
+<Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+<ImageCropper onCloseModal={handleCloseModal} />
+</Modal>
+</div>
+);
 };
 
 const ImageCropperRefForwarded = React.forwardRef((props, ref) => {
-  return <ImageCropper {...props} forwardedRef={ref} />;
+return <ImageCropper {...props} forwardedRef={ref} />;
 });
 
 export default Main;
